@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.core.urls')),
     path('watering_system/', include('apps.watering_system.urls')),
+    path('door_opener/', include('apps.door_opener.urls')),
 ]
 
 if settings.DEBUG:
