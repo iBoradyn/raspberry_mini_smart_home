@@ -1,3 +1,4 @@
+{% load static %}
 {% load i18n %}
 {% csrf_token %}
 
@@ -8,58 +9,36 @@
   <title>{% trans 'Manage watering system' %}</title>
 </head>
 <body>
-  <h1>{% trans 'Manage watering system' %}</h1>
-  <h3>{% trans 'Click button to start/stop watering.' %}</h3>
+  <div id="watering_system">
+    <h1>{% trans 'Manage watering system' %}</h1>
+    <h3>{% trans 'Click button to start/stop watering.' %}</h3>
 
-  <button id="watering_btn">Start</button>
+    <button id="watering_btn">Start</button>
+  </div>
+  <div id="door_opener">
+    <h1>{% trans 'Mini motor control' %}</h1>
 
-  <script>
-    function getCookie(name) {
-      if (!document.cookie) {
-        return null;
-      }
+    <button id="spin_left_btn">{% trans 'Spin left' %}</button>
+    <button id="spin_right_btn">{% trans 'Spin right' %}</button>
+    <button id="spin_off_btn">{% trans 'Turn off' %}</button>
+  </div>
 
-      const xsrfCookies = document.cookie.split(';')
-        .map(c => c.trim())
-        .filter(c => c.startsWith(name + '='));
 
-      if (xsrfCookies.length === 0) {
-        return null;
-      }
-      return decodeURIComponent(xsrfCookies[0].split('=')[1]);
-    }
-  </script>
-
+  <script src="{% static 'js/getCookie.js' %}"></script>
   <script>
     window.addEventListener("load", () => {
-      let pumpOn = false;
-      const csrfToken = getCookie('csrftoken');
-      const btn = document.getElementById('watering_btn');
+        window.csrfToken = getCookie('csrftoken');
 
-      btn.addEventListener('click', () => {
-        let url = "{% url 'watering_system:turn_on_pump' %}";
-        if(pumpOn) {
-            url = "{% url 'watering_system:turn_off_pump' %}"
-        }
-        let xhr = new XMLHttpRequest();
+        window.turnOnPumpUrl = {% url 'watering_system:turn_on_pump' %}
+        window.turnOffPumpUrl = {% url 'watering_system:turn_off_pump' %}
 
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader('X-CSRFToken', csrfToken);
-        xhr.onreadystatechange = function () {
-            if(this.status < 400) {
-              pumpOn = !pumpOn;
-
-              if(pumpOn) {
-                btn.innerHTML = 'Stop'
-              } else {
-                btn.innerHTML = 'Start'
-              }
-            }
-        }
-
-        xhr.send();
-      })
+        window.spinMotorLeftUrl = {% url 'door_opener:spin_motor_left' %}
+        window.spinMotorRightUrl = {% url 'door_opener:spin_motor_right' %}
+        window.turnOffMotor = {% url 'door_opener:turn_motor_off' %}
     })
   </script>
+
+  <script src="{% static 'js/watering_system.js' %}"></script>
+  <script src="{% static 'js/door_opener.js' %}"></script>
 </body>
 </html>

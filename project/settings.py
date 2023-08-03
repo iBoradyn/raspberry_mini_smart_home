@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.core.apps.CoreConfig',
     'apps.accounts.apps.AccountsConfig',
     'apps.watering_system.apps.WateringSystemConfig',
+    'apps.door_opener.apps.DoorOpenerConfig',
 ]
 
 MIDDLEWARE = [

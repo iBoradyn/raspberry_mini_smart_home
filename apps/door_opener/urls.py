@@ -14,12 +14,12 @@ urlpatterns = [
     path(
         'turn-left/',
         login_required(TurnMotorLeftSpinningView.as_view()),
-        name='turn_motor_left',
+        name='spin_motor_left',
     ),
     path(
         'turn-right/',
         login_required(TurnMotorRightSpinningView.as_view()),
-        name='turn_motor_right',
+        name='spin_motor_right',
     ),
     path('turn-off/', login_required(TurnMotorOffView.as_view()), name='turn_motor_off'),
 ]
