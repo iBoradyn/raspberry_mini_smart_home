@@ -29,12 +29,12 @@
     window.addEventListener("load", () => {
         window.csrfToken = getCookie('csrftoken');
 
-        window.turnOnPumpUrl = {% url 'watering_system:turn_on_pump' %}
-        window.turnOffPumpUrl = {% url 'watering_system:turn_off_pump' %}
+        window.turnOnPumpUrl = "{% url 'watering_system:turn_on_pump' %}";
+        window.turnOffPumpUrl = "{% url 'watering_system:turn_off_pump' %}";
 
-        window.spinMotorLeftUrl = {% url 'door_opener:spin_motor_left' %}
-        window.spinMotorRightUrl = {% url 'door_opener:spin_motor_right' %}
-        window.turnOffMotor = {% url 'door_opener:turn_motor_off' %}
+        window.spinMotorLeftUrl = "{% url 'door_opener:spin_motor_left' %}";
+        window.spinMotorRightUrl = "{% url 'door_opener:spin_motor_right' %}";
+        window.turnOffMotor = "{% url 'door_opener:turn_motor_off' %}";
     })
   </script>
 
