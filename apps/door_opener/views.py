@@ -3,21 +3,32 @@
 from django.http import JsonResponse
 from django.views import View
 
-# 3rd-party
-from gpiozero import OutputDevice
+# Project
+from apps.core.utils import flush_tasks_by_name
 
-relayLeft = OutputDevice(17, False)
-relayRight = OutputDevice(22, False)
+# Local
+from .models import Motor
+from .tasks import spin_motor
+from .utils import turn_off_motor
 
 
 class TurnMotorLeftSpinningView(View):  # noqa: D101
     def post(self, *args, **kwargs):  # noqa: D102
-        relayLeft.on()
-        relayRight.off()
+        motor = Motor.objects.first()
+
+        if motor.status != motor.MotorStatuses.NO_SPINNING:
+            return JsonResponse(
+                {
+                  'message': 'Motor already working!',
+                },
+                status=400
+            )
+
+        spin_motor.delay(motor.pk, 'left')
 
         return JsonResponse(
             {
-              'motor_status': 'left_spinning',
+              'message': 'Motor is spinning.',
             },
             status=200
         )
@@ -25,12 +36,21 @@ class TurnMotorLeftSpinningView(View):  # noqa: D101
 
 class TurnMotorRightSpinningView(View):  # noqa: D101
     def post(self, *args, **kwargs):  # noqa: D102
-        relayLeft.off()
-        relayRight.on()
+        motor = Motor.objects.first()
+
+        if motor.status != motor.MotorStatuses.NO_SPINNING:
+            return JsonResponse(
+                {
+                  'message': 'Motor already working!',
+                },
+                status=400
+            )
+
+        spin_motor.delay(motor.pk, 'right')
 
         return JsonResponse(
             {
-              'motor_status': 'right_spinning',
+              'message': 'Motor is spinning.',
             },
             status=200
         )
@@ -38,12 +58,26 @@ class TurnMotorRightSpinningView(View):  # noqa: D101
 
 class TurnMotorOffView(View):  # noqa: D101
     def post(self, *args, **kwargs):  # noqa: D102
-        relayLeft.off()
-        relayRight.off()
+        motor = Motor.objects.first()
+        turn_off_motor(motor)
+
+        flush_tasks_by_name(spin_motor.__module__, spin_motor.__name__)
 
         return JsonResponse(
             {
-              'motor_status': 'off',
+              'message': 'Motor stopped spinning.',
+            },
+            status=200
+        )
+
+
+class GetMotorStatus(View):  # noqa: D101
+    def get(self, *args, **kwargs):  # noqa: D102
+        motor_status = Motor.objects.first().get_status_display()
+
+        return JsonResponse(
+            {
+                'motor_status': motor_status,
             },
             status=200
         )

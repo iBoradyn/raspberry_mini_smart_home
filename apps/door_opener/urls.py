@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 # Local
+from .views import GetMotorStatus
 from .views import TurnMotorLeftSpinningView
 from .views import TurnMotorOffView
 from .views import TurnMotorRightSpinningView
@@ -22,4 +23,5 @@ urlpatterns = [
         name='spin_motor_right',
     ),
     path('turn-off/', login_required(TurnMotorOffView.as_view()), name='turn_motor_off'),
+    path('status/', login_required(GetMotorStatus.as_view()), name='motor_status'),
 ]

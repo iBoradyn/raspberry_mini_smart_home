@@ -16,6 +16,13 @@ SITE_ID = 1
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
+if env.bool('MOCK_PINS', True):
+    # 3rd-party
+    from gpiozero import Device
+    from gpiozero.pins.mock import MockFactory
+
+    Device.pin_factory = MockFactory()
+
 DEBUG = env.bool('DEBUG', False)
 SECRET_KEY = env.str('SECRET_KEY', 'S3cR3tK3y')
 
@@ -138,3 +145,16 @@ EMAIL_USE_SSL = env.bool('EMAIL_USE_SSL', '')
 EMAIL_PORT = env.str('EMAIL_PORT', '')
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', '')
+
+# Celery
+CELERY = {
+    'BROKER_URL': env.str('REDIS_URL'),
+    'RESULT_BACKEND': env.str('REDIS_URL'),
+    'TASK_SERIALIZER': 'json',
+    'RESULT_SERIALIZER': 'json',
+    'ACCEPT_CONTENT': ['json'],
+    'TIMEZONE': 'Europe/Warsaw',
+    'TASK_TRACK_STARTED': True,
+    'TASK_RESULT_EXPIRES': 10000,
+}
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

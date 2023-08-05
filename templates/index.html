@@ -14,6 +14,8 @@
     <h3>{% trans 'Click button to start/stop watering.' %}</h3>
 
     <button id="watering_btn">Start</button>
+
+    <p id="watering_system_messages"></p>
   </div>
   <div id="door_opener">
     <h1>{% trans 'Mini motor control' %}</h1>
@@ -21,24 +23,32 @@
     <button id="spin_left_btn">{% trans 'Spin left' %}</button>
     <button id="spin_right_btn">{% trans 'Spin right' %}</button>
     <button id="spin_off_btn">{% trans 'Turn off' %}</button>
+
+    <p id="door_opener_messages"></p>
   </div>
 
 
   <script src="{% static 'js/getCookie.js' %}"></script>
   <script>
-    window.addEventListener("load", () => {
+    document.addEventListener("DOMContentLoaded", () => {
         window.csrfToken = getCookie('csrftoken');
 
         window.turnOnPumpUrl = "{% url 'watering_system:turn_on_pump' %}";
         window.turnOffPumpUrl = "{% url 'watering_system:turn_off_pump' %}";
+        window.pumpStatusUrl = "{% url 'watering_system:pump_status' %}";
 
         window.spinMotorLeftUrl = "{% url 'door_opener:spin_motor_left' %}";
         window.spinMotorRightUrl = "{% url 'door_opener:spin_motor_right' %}";
         window.turnOffMotor = "{% url 'door_opener:turn_motor_off' %}";
+        window.motorStatusUrl = "{% url 'door_opener:motor_status' %}";
+
+        window.pumpStatuses = JSON.parse('{{ pump_statuses|safe }}');
+        window.motorStatuses = JSON.parse('{{ motor_statuses|safe }}');
     })
   </script>
+  <script src="{% static 'js/sendRequest.js' %}"></script>
 
-  <script src="{% static 'js/watering_system.js' %}"></script>
-  <script src="{% static 'js/door_opener.js' %}"></script>
+  <script src="{% static 'js/wateringSystem.js' %}"></script>
+  <script src="{% static 'js/doorOpener.js' %}"></script>
 </body>
 </html>

@@ -3,19 +3,32 @@
 from django.http import JsonResponse
 from django.views import View
 
-# 3rd-party
-from gpiozero import OutputDevice
+# Project
+from apps.core.utils import flush_tasks_by_name
 
-relay = OutputDevice(15, False)
+# Local
+from .models import Pump
+from .tasks import turn_on_pump_task
+from .utils import turn_off_pump
 
 
 class TurnOnPumpView(View):  # noqa: D101
     def post(self, *args, **kwargs):  # noqa: D102
-        relay.on()
+        pump = Pump.objects.first()
+
+        if pump.status == pump.PumpStatuses.ON:
+            return JsonResponse(
+                {
+                  'message': 'Pump already working!',
+                },
+                status=400
+            )
+
+        turn_on_pump_task.delay(pump.pk)
 
         return JsonResponse(
             {
-              'pump_status': 'on',
+              'message': 'Pump turned on.',
             },
             status=200
         )
@@ -23,11 +36,26 @@ class TurnOnPumpView(View):  # noqa: D101
 
 class TurnOffPumpView(View):  # noqa: D101
     def post(self, *args, **kwargs):  # noqa: D102
-        relay.off()
+        pump = Pump.objects.first()
+        turn_off_pump(pump)
+
+        flush_tasks_by_name(turn_on_pump_task.__module__, turn_on_pump_task.__name__)
 
         return JsonResponse(
             {
-              'pump_status': 'off',
+              'message': 'Pump turned off.',
+            },
+            status=200
+        )
+
+
+class GetPumpStatus(View):  # noqa: D101
+    def get(self, *args, **kwargs):  # noqa: D102
+        pump_status = Pump.objects.first().get_status_display()
+
+        return JsonResponse(
+            {
+                'pump_status': pump_status,
             },
             status=200
         )
