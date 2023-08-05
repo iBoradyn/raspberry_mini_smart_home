@@ -8,6 +8,7 @@ from celery import shared_task
 # Local
 from .models import Motor
 from .utils import spin_motor_left
+from .utils import spin_motor_right
 from .utils import turn_off_motor
 
 
@@ -19,9 +20,10 @@ def spin_motor(motor_pk: int, direction: str) -> None:
     sleep_time = 0
     if direction == 'left':
         sleep_time = motor.left_spinning_time
+        spin_motor_left(motor)
     elif direction == 'right':
         sleep_time = motor.right_spinning_time
+        spin_motor_right(motor)
 
-    spin_motor_left(motor)
     time.sleep(sleep_time)
     turn_off_motor(motor)
