@@ -9,6 +9,7 @@ class Motor(models.Model):  # noqa: D101
         LEFT_SPINNING = 'LEFT', _('Left spinning')
         RIGHT_SPINNING = 'RIGHT', _('Right spinning')
         NO_SPINNING = 'OFF', _('Turned off')
+        TURNING_OFF_SPINNING = 'TURNING_OFF', _('Turning off')
 
     status = models.TextField(
         _('Status'),

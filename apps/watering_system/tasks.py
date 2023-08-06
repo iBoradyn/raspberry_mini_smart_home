@@ -20,4 +20,4 @@ def turn_on_pump_task(pump_pk: int) -> None:
 
     turn_on_pump(pump)
     time.sleep(sleep_time)
-    turn_off_pump(pump)
+    turn_off_pump(pump, flush_tasks=False)

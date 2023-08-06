@@ -3,9 +3,6 @@
 from django.http import JsonResponse
 from django.views import View
 
-# Project
-from apps.core.utils import flush_tasks_by_name
-
 # Local
 from .models import Pump
 from .tasks import turn_on_pump_task
@@ -19,7 +16,16 @@ class TurnOnPumpView(View):  # noqa: D101
         if pump.status == pump.PumpStatuses.ON:
             return JsonResponse(
                 {
-                  'message': 'Pump already working!',
+                    'message': 'Pump already working!',
+                    'pump_status': pump.get_status_display(),
+                },
+                status=400
+            )
+        if pump.status == pump.PumpStatuses.TURNING_OFF:
+            return JsonResponse(
+                {
+                    'message': 'Pump is turning off!',
+                    'pump_status': pump.get_status_display(),
                 },
                 status=400
             )
@@ -28,7 +34,7 @@ class TurnOnPumpView(View):  # noqa: D101
 
         return JsonResponse(
             {
-              'message': 'Pump turned on.',
+                'message': 'Pump turned on.',
             },
             status=200
         )
@@ -39,11 +45,9 @@ class TurnOffPumpView(View):  # noqa: D101
         pump = Pump.objects.first()
         turn_off_pump(pump)
 
-        flush_tasks_by_name(turn_on_pump_task.__module__, turn_on_pump_task.__name__)
-
         return JsonResponse(
             {
-              'message': 'Pump turned off.',
+                'message': 'Pump turned off.',
             },
             status=200
         )

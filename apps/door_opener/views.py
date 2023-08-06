@@ -61,8 +61,6 @@ class TurnMotorOffView(View):  # noqa: D101
         motor = Motor.objects.first()
         turn_off_motor(motor)
 
-        flush_tasks_by_name(spin_motor.__module__, spin_motor.__name__)
-
         return JsonResponse(
             {
               'message': 'Motor stopped spinning.',

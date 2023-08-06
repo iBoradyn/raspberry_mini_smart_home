@@ -11,21 +11,34 @@ document.addEventListener("DOMContentLoaded", () => {
     turnMotorOffBtn.addEventListener('click', turnMotorOff);
 
     checkMotorStatus();
-    setInterval(checkMotorStatus, 10000);
+    window.motorStatusSocket = new WebSocket(
+        'ws://'
+        + window.location.hostname
+        + ':8001'
+        + '/ws/motor_status/'
+    );
+
+    motorStatusSocket.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+
+        updateMotorStatusInfo(data.motor_status);
+    }
+    motorStatusSocket.onclose = (e) => {
+        console.error('Motor status socket closed unexpectedly');
+    }
 })
 
 const spinMotorLeft = () => {
     disableMotorButtons();
 
     const callback = (xhr) => {
-        if(xhr.status < 400) {
-            motorSpinningLeftHandler();
-        } else {
-            motorErrorHandler(JSON.parse(xhr.response.message));
+        if(xhr.status >= 400) {
+            alert(JSON.parse(xhr.response).message);
+            console.error(xhr);
         }
     }
 
-    doorOpenerMessagesP.innerHTML = 'Starting spinning motor...'
+    doorOpenerMessagesP.innerHTML = 'Starting spinning motor...';
     sendPost({
         url: spinMotorLeftUrl,
         callback: callback
@@ -36,15 +49,13 @@ const spinMotorRight = () => {
     disableMotorButtons();
 
     const callback = (xhr) => {
-        if(xhr.status < 400) {
-            motorSpinningRightHandler();
-        } else {
-            motorErrorHandler(JSON.parse(xhr.response.message));
+        if(xhr.status >= 400) {
+            alert(JSON.parse(xhr.response).message);
+            console.error(xhr);
         }
-
     }
 
-    doorOpenerMessagesP.innerHTML = 'Starting spinning motor...'
+    doorOpenerMessagesP.innerHTML = 'Starting spinning motor...';
     sendPost({
         url: spinMotorRightUrl,
         callback: callback
@@ -55,14 +66,13 @@ const turnMotorOff = () => {
     disableMotorButtons();
 
     const callback = (xhr) => {
-        if(xhr.status < 400) {
-            motorOffHandler();
-        } else {
-            motorErrorHandler(JSON.parse(xhr.response.message));
+        if(xhr.status >= 400) {
+            alert(JSON.parse(xhr.response).message);
+            console.error(xhr);
         }
     }
 
-    doorOpenerMessagesP.innerHTML = 'Stopping motor...'
+    doorOpenerMessagesP.innerHTML = 'Stopping motor...';
     sendPost({
         url: turnOffMotor,
         callback: callback
@@ -73,14 +83,7 @@ const checkMotorStatus = () => {
     const callback = (xhr) => {
         if(xhr.status < 400) {
             const status = JSON.parse(xhr.response).motor_status;
-
-            if(status === motorStatuses.LEFT) {
-                motorSpinningLeftHandler();
-            } else if(status === motorStatuses.RIGHT) {
-                motorSpinningRightHandler();
-            } else if(status === motorStatuses.OFF) {
-                motorOffHandler();
-            }
+            updateMotorStatusInfo(status);
         }
     }
 
@@ -88,6 +91,18 @@ const checkMotorStatus = () => {
         url: motorStatusUrl,
         callback: callback
     })
+}
+
+const updateMotorStatusInfo = (motor_status) => {
+    if(motor_status === motorStatuses.LEFT) {
+        motorSpinningLeftHandler();
+    } else if(motor_status === motorStatuses.RIGHT) {
+        motorSpinningRightHandler();
+    } else if(motor_status === motorStatuses.TURNING_OFF) {
+        motorTurningOffHandler();
+    } else if(motor_status === motorStatuses.OFF) {
+        motorOffHandler();
+    }
 }
 
 const disableMotorButtons = () => {
@@ -112,21 +127,18 @@ const motorSpinningRightHandler = () => {
     spinMotorLeftBtn.disabled = false;
 }
 
+const motorTurningOffHandler = () => {
+    doorOpenerMessagesP.innerHTML = 'Motor turning off.'
+
+    turnMotorOffBtn.disabled = true;
+    spinMotorRightBtn.disabled = true;
+    spinMotorLeftBtn.disabled = true;
+}
+
 const motorOffHandler = () => {
     doorOpenerMessagesP.innerHTML = 'Motor stopped.'
 
     turnMotorOffBtn.disabled = true;
     spinMotorRightBtn.disabled = false;
     spinMotorLeftBtn.disabled = false;
-}
-
-const motorErrorHandler = (message) => {
-    doorOpenerMessagesP.innerHTML = 'ERROR! Check motor.'
-
-    turnMotorOffBtn.disabled = false;
-    spinMotorRightBtn.disabled = true;
-    spinMotorLeftBtn.disabled = true;
-
-    alert(message);
-
 }

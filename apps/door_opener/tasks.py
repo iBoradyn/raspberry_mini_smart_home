@@ -26,4 +26,4 @@ def spin_motor(motor_pk: int, direction: str) -> None:
         spin_motor_right(motor)
 
     time.sleep(sleep_time)
-    turn_off_motor(motor)
+    turn_off_motor(motor, flush_tasks=False)
