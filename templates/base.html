@@ -12,14 +12,15 @@
   {% block extra_css %}{% endblock %}
 </head>
 <body>
-  <form action="{% url 'set_language' %}" method="post">
+  <form class="position-absolute top-25 end-0 pe-5" action="{% url 'set_language' %}" method="post">
     {% csrf_token %}
     {% get_current_language as LANGUAGE_CODE %}
     {% if LANGUAGE_CODE == 'en' %}
       {% language 'pl' %}
         <button type="submit"
                 name="language"
-                value="pl">
+                value="pl"
+                class="btn btn-info">
           PL
         </button>
       {% endlanguage %}
@@ -27,7 +28,8 @@
       {% language 'en' %}
         <button type="submit"
                 name="language"
-                value="en">
+                value="en"
+                class="btn btn-info">
           EN
         </button>
       {% endlanguage %}
