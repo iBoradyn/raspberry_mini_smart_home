@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {{ block.super }} - {% trans 'Select a device' %}
+{% endblock %}
+
+{% block content %}
+  <h1 class="text-center mt-3">{% trans 'Select a device' %}</h1>
+  <hr class="my-4">
+
+  <div class="container text-center">
+    <div>
+      <a class="btn btn-primary" href="{% url 'watering_system:index' %}">
+        {% trans 'Watering system' %}
+      </a>
+    </div>
+    <div>
+      <a class="btn btn-primary mt-3" href="{% url 'door_opener:index' %}">
+        {% trans 'Door opener' %}
+      </a>
+    </div>
+  </div>
+{% endblock %}
+
+

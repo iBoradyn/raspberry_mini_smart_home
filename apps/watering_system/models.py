@@ -8,6 +8,7 @@ class Pump(models.Model):  # noqa: D101
     class PumpStatuses(models.TextChoices):  # noqa: D106
         ON = 'ON', _('Turned on')
         OFF = 'OFF', _('Turned off')
+        TURNING_ON = 'TURNING_ON', _('Turning on')
         TURNING_OFF = 'TURNING_OFF', _('Turning off')
 
     status = models.TextField(

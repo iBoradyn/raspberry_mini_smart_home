@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% csrf_token %}
+
+{% block title %}
+  {{ block.super }} - {% trans 'Watering system' %}
+{% endblock %}
+
+{% block content %}
+  <h1 class="text-center mt-3">{% trans 'Watering system' %}</h1>
+  <hr class="my-4">
+
+  <div class="ms-1 ps-1 ms-sm-3 ps-sm-3 ms-md-4 ps-md-4 ms-lg-5 ps-lg-5">
+    <a class="btn btn-secondary" href="{% url 'core:index' %}">{% trans 'Go back' %}</a>
+  </div>
+
+  <div id="watering_system" class="container text-center">
+    <h3 class="mb-2">{% trans 'Click button to start/stop watering.' %}</h3>
+
+    <button id="watering_btn" class="btn btn-primary py-3 px-5 my-4">Start</button>
+
+    <p id="watering_system_messages" class="alert alert-info w-50 mx-auto"></p>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        window.turnOnPumpUrl = "{% url 'watering_system:turn_on_pump' %}";
+        window.turnOffPumpUrl = "{% url 'watering_system:turn_off_pump' %}";
+        window.pumpStatusUrl = "{% url 'watering_system:pump_status' %}";
+
+        window.pumpStatuses = JSON.parse('{{ pump_statuses|safe }}');
+    })
+  </script>
+
+  <script src="{% static 'js/wateringSystem.js' %}"></script>
+{% endblock %}

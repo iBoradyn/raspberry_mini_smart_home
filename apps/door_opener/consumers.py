@@ -5,8 +5,8 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
 
-class MotorStatusConsumer(WebsocketConsumer):
-    group_name = 'motor_status'
+class DoorStatusConsumer(WebsocketConsumer):
+    group_name = 'door_status'
 
     def connect(self):
         async_to_sync(self.channel_layer.group_add)(
@@ -22,13 +22,13 @@ class MotorStatusConsumer(WebsocketConsumer):
 
     def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-        motor_status = text_data_json["motor_status"]
+        door_status = text_data_json["door_status"]
 
         async_to_sync(self.channel_layer.group_send)(
-            self.group_name, {"type": "motor.status", "motor_status": motor_status}
+            self.group_name, {"type": "door.status", "door_status": door_status}
         )
 
-    def motor_status(self, event):
-        motor_status = event["motor_status"]
+    def door_status(self, event):
+        door_status = event["door_status"]
 
-        self.send(text_data=json.dumps({"motor_status": motor_status}))
+        self.send(text_data=json.dumps({"door_status": door_status}))

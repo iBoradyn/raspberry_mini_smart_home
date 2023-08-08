@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% csrf_token %}
+
+{% block title %}
+  {{ block.super }} - {% trans 'Door opener' %}
+{% endblock %}
+
+{% block content %}
+  <h1 class="text-center mt-3">{% trans 'Door opener' %}</h1>
+  <hr class="my-4">
+
+  <div class="ms-1 ps-1 ms-sm-3 ps-sm-3 ms-md-4 ps-md-4 ms-lg-5 ps-lg-5">
+    <a class="btn btn-secondary" href="{% url 'core:index' %}">{% trans 'Go back' %}</a>
+  </div>
+
+  <div id="door_opener" class="container text-center">
+    <h3 class="mb-2">{% trans 'Click button to open/close door.' %}</h3>
+
+    <button id="door_opener_btn" class="btn btn-primary py-3 px-5 my-4">Start</button>
+
+    <p id="door_opener_messages" class="alert alert-info w-50 mx-auto"></p>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        window.closeDoorUrl = "{% url 'door_opener:close_door' %}";
+        window.openDoorUrl = "{% url 'door_opener:open_door' %}";
+        window.doorStatusUrl = "{% url 'door_opener:door_status' %}";
+
+        window.doorStatuses = JSON.parse('{{ door_statuses|safe }}');
+    })
+  </script>
+
+  <script src="{% static 'js/doorOpener.js' %}"></script>
+{% endblock %}

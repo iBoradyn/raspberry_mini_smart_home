@@ -1,7 +1,11 @@
 """Watering system views."""
+import json
+
 # Django
 from django.http import JsonResponse
 from django.views import View
+from django.views.generic import TemplateView
+from django.utils.translation import gettext_lazy as _
 
 # Local
 from .models import Pump
@@ -16,7 +20,7 @@ class TurnOnPumpView(View):  # noqa: D101
         if pump.status == pump.PumpStatuses.ON:
             return JsonResponse(
                 {
-                    'message': 'Pump already working!',
+                    'message': _('Pump already working!'),
                     'pump_status': pump.get_status_display(),
                 },
                 status=400
@@ -24,7 +28,7 @@ class TurnOnPumpView(View):  # noqa: D101
         if pump.status == pump.PumpStatuses.TURNING_OFF:
             return JsonResponse(
                 {
-                    'message': 'Pump is turning off!',
+                    'message': _('Pump is turning off!'),
                     'pump_status': pump.get_status_display(),
                 },
                 status=400
@@ -34,7 +38,7 @@ class TurnOnPumpView(View):  # noqa: D101
 
         return JsonResponse(
             {
-                'message': 'Pump turned on.',
+                'message': _('Pump turned on.'),
             },
             status=200
         )
@@ -47,7 +51,7 @@ class TurnOffPumpView(View):  # noqa: D101
 
         return JsonResponse(
             {
-                'message': 'Pump turned off.',
+                'message': _('Pump turned off.'),
             },
             status=200
         )
@@ -63,3 +67,16 @@ class GetPumpStatus(View):  # noqa: D101
             },
             status=200
         )
+
+
+class PumpControlTemplateView(TemplateView):
+    template_name = 'watering_system/index.html'
+
+    def get_context_data(self, **kwargs):  # noqa: D102
+        context = super().get_context_data(**kwargs)
+
+        pump_statuses = dict(Pump.PumpStatuses.choices)
+        pump_statuses = {str(k): str(v) for k, v in pump_statuses.items()}
+        context['pump_statuses'] = json.dumps(pump_statuses)
+
+        return context

@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Mini smart home{% endblock %}</title>
+
+  <!-- Bootstrap -->
+  <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  {% block content %}{% endblock %}
+
+  <!-- Bootstrap -->
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+  <script src="{% static 'js/getCookie.js' %}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        window.csrfToken = getCookie('csrftoken');
+    })
+  </script>
+  <script src="{% static 'js/sendRequest.js' %}"></script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

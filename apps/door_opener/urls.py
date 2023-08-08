@@ -4,24 +4,24 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 # Local
-from .views import GetMotorStatus
-from .views import TurnMotorLeftSpinningView
-from .views import TurnMotorOffView
-from .views import TurnMotorRightSpinningView
+from .views import GetDoorStatus, MotorControlTemplateView
+from .views import CloseDoorView
+from .views import OpenDoorView
 
 app_name = 'door_opener'
 
 urlpatterns = [
     path(
-        'turn-left/',
-        login_required(TurnMotorLeftSpinningView.as_view()),
-        name='spin_motor_left',
+        'close-door/',
+        login_required(CloseDoorView.as_view()),
+        name='close_door',
     ),
     path(
-        'turn-right/',
-        login_required(TurnMotorRightSpinningView.as_view()),
-        name='spin_motor_right',
+        'open-door/',
+        login_required(OpenDoorView.as_view()),
+        name='open_door',
     ),
-    path('turn-off/', login_required(TurnMotorOffView.as_view()), name='turn_motor_off'),
-    path('status/', login_required(GetMotorStatus.as_view()), name='motor_status'),
+    path('status/', login_required(GetDoorStatus.as_view()), name='door_status'),
+
+    path('', login_required(MotorControlTemplateView.as_view()), name='index')
 ]

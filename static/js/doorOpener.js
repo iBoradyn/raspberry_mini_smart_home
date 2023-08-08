@@ -1,35 +1,38 @@
 document.addEventListener("DOMContentLoaded", () => {
     window.doorOpenerMessagesP = document.getElementById('door_opener_messages');
 
-    window.spinMotorLeftBtn = document.getElementById('spin_left_btn');
-    window.spinMotorRightBtn = document.getElementById('spin_right_btn');
-    window.turnMotorOffBtn = document.getElementById('spin_off_btn');
-    turnMotorOffBtn.disabled = true;
+    window.doorOpenerBtn = document.getElementById('door_opener_btn');
+    window.doorStatus = doorStatuses.OPEN;
+    doorOpenerBtn.disabled = true;
+    checkDoorStatus();
 
-    spinMotorLeftBtn.addEventListener('click', spinMotorLeft);
-    spinMotorRightBtn.addEventListener('click', spinMotorRight);
-    turnMotorOffBtn.addEventListener('click', turnMotorOff);
+    doorOpenerBtn.addEventListener('click', () => {
+        if(doorStatus === doorStatuses.OPEN){
+            closeDoor();
+        } else if(doorStatus === doorStatuses.CLOSED) {
+            openDoor();
+        }
+    });
 
-    checkMotorStatus();
-    window.motorStatusSocket = new WebSocket(
+    window.doorStatusSocket = new WebSocket(
         'ws://'
         + window.location.hostname
         + ':8001'
-        + '/ws/motor_status/'
+        + '/ws/door_status/'
     );
 
-    motorStatusSocket.onmessage = (e) => {
+    doorStatusSocket.onmessage = (e) => {
         const data = JSON.parse(e.data);
 
-        updateMotorStatusInfo(data.motor_status);
+        updateDoorStatusInfo(data.door_status);
     }
-    motorStatusSocket.onclose = (e) => {
-        console.error('Motor status socket closed unexpectedly');
+    doorStatusSocket.onclose = (e) => {
+        console.error('Door status socket closed unexpectedly');
     }
 })
 
-const spinMotorLeft = () => {
-    disableMotorButtons();
+const closeDoor = () => {
+    doorOpenerBtn.disabled = true;
 
     const callback = (xhr) => {
         if(xhr.status >= 400) {
@@ -38,15 +41,15 @@ const spinMotorLeft = () => {
         }
     }
 
-    doorOpenerMessagesP.innerHTML = 'Starting spinning motor...';
+    doorOpenerMessagesP.innerHTML = doorStatuses.CLOSING;
     sendPost({
-        url: spinMotorLeftUrl,
+        url: closeDoorUrl,
         callback: callback
     })
 }
 
-const spinMotorRight = () => {
-    disableMotorButtons();
+const openDoor = () => {
+    doorOpenerBtn.disabled = true;
 
     const callback = (xhr) => {
         if(xhr.status >= 400) {
@@ -55,90 +58,59 @@ const spinMotorRight = () => {
         }
     }
 
-    doorOpenerMessagesP.innerHTML = 'Starting spinning motor...';
+    doorOpenerMessagesP.innerHTML = doorStatuses.OPENING;
     sendPost({
-        url: spinMotorRightUrl,
+        url: openDoorUrl,
         callback: callback
     })
 }
 
-const turnMotorOff = () => {
-    disableMotorButtons();
-
-    const callback = (xhr) => {
-        if(xhr.status >= 400) {
-            alert(JSON.parse(xhr.response).message);
-            console.error(xhr);
-        }
-    }
-
-    doorOpenerMessagesP.innerHTML = 'Stopping motor...';
-    sendPost({
-        url: turnOffMotor,
-        callback: callback
-    })
-}
-
-const checkMotorStatus = () => {
+const checkDoorStatus = () => {
     const callback = (xhr) => {
         if(xhr.status < 400) {
-            const status = JSON.parse(xhr.response).motor_status;
-            updateMotorStatusInfo(status);
+            const status = JSON.parse(xhr.response).door_status;
+            updateDoorStatusInfo(status);
         }
     }
 
     sendGet({
-        url: motorStatusUrl,
+        url: doorStatusUrl,
         callback: callback
     })
 }
 
-const updateMotorStatusInfo = (motor_status) => {
-    if(motor_status === motorStatuses.LEFT) {
-        motorSpinningLeftHandler();
-    } else if(motor_status === motorStatuses.RIGHT) {
-        motorSpinningRightHandler();
-    } else if(motor_status === motorStatuses.TURNING_OFF) {
-        motorTurningOffHandler();
-    } else if(motor_status === motorStatuses.OFF) {
-        motorOffHandler();
+const updateDoorStatusInfo = (door_status) => {
+    if(door_status === doorStatuses.OPEN) {
+        doorOpenHandler();
+    } else if(door_status === doorStatuses.CLOSED) {
+        doorClosedHandler();
+    } else if(door_status === doorStatuses.OPENING) {
+        doorOpeningHandler();
+    } else if(door_status === doorStatuses.CLOSING) {
+        doorClosingHandler();
     }
 }
 
-const disableMotorButtons = () => {
-    turnMotorOffBtn.disabled = true;
-    spinMotorRightBtn.disabled = true;
-    spinMotorLeftBtn.disabled = true;
+const doorOpenHandler = () => {
+    doorOpenerBtn.disabled = false;
+    doorOpenerMessagesP.innerHTML = doorStatuses.OPEN;
+    window.doorStatus = doorStatuses.OPEN;
 }
 
-const motorSpinningLeftHandler = () => {
-    doorOpenerMessagesP.innerHTML = 'Motor spinning left.'
-
-    turnMotorOffBtn.disabled = false;
-    spinMotorRightBtn.disabled = false;
-    spinMotorLeftBtn.disabled = true;
+const doorClosedHandler = () => {
+    doorOpenerBtn.disabled = false;
+    doorOpenerMessagesP.innerHTML = doorStatuses.CLOSED;
+    window.doorStatus = doorStatuses.CLOSED;
 }
 
-const motorSpinningRightHandler = () => {
-    doorOpenerMessagesP.innerHTML = 'Motor spinning right.'
-
-    turnMotorOffBtn.disabled = false;
-    spinMotorRightBtn.disabled = true;
-    spinMotorLeftBtn.disabled = false;
+const doorOpeningHandler = () => {
+    doorOpenerBtn.disabled = true;
+    doorOpenerMessagesP.innerHTML = doorStatuses.OPENING;
+    window.doorStatus = doorStatuses.OPENING;
 }
 
-const motorTurningOffHandler = () => {
-    doorOpenerMessagesP.innerHTML = 'Motor turning off.'
-
-    turnMotorOffBtn.disabled = true;
-    spinMotorRightBtn.disabled = true;
-    spinMotorLeftBtn.disabled = true;
-}
-
-const motorOffHandler = () => {
-    doorOpenerMessagesP.innerHTML = 'Motor stopped.'
-
-    turnMotorOffBtn.disabled = true;
-    spinMotorRightBtn.disabled = false;
-    spinMotorLeftBtn.disabled = false;
+const doorClosingHandler = () => {
+    doorOpenerBtn.disabled = true;
+    doorOpenerMessagesP.innerHTML = doorStatuses.CLOSING;
+    window.doorStatus = doorStatuses.CLOSING;
 }
