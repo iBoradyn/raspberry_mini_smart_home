@@ -1,0 +1,150 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-08 20:10+0200\n"
+"PO-Revision-Date: 2023-08-08 20:16+0200\n"
+"Last-Translator:   <>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"X-Translated-Using: django-rosetta 0.9.9\n"
+
+#: apps/door_opener/models.py:9 apps/door_opener/models.py:19
+msgid "Closing"
+msgstr "Zamykanie"
+
+#: apps/door_opener/models.py:10 apps/door_opener/models.py:18
+msgid "Opening"
+msgstr "Otwieranie"
+
+#: apps/door_opener/models.py:11 apps/watering_system/models.py:10
+msgid "Turned off"
+msgstr "Wyłączone"
+
+#: apps/door_opener/models.py:12 apps/watering_system/models.py:11
+msgid "Turning on"
+msgstr "Włączone"
+
+#: apps/door_opener/models.py:13 apps/watering_system/models.py:12
+msgid "Turning off"
+msgstr "Wyłączanie"
+
+#: apps/door_opener/models.py:16
+msgid "Open"
+msgstr "Otwarte"
+
+#: apps/door_opener/models.py:17
+msgid "Closed"
+msgstr "Zamknięte"
+
+#: apps/door_opener/models.py:22 apps/watering_system/models.py:15
+msgid "Status"
+msgstr "Status"
+
+#: apps/door_opener/models.py:28
+msgid "Door status"
+msgstr "Status drzwi"
+
+#: apps/door_opener/models.py:33 apps/door_opener/models.py:34
+msgid "Left spinning time (s)"
+msgstr "Czas obrotu w lewo (s)"
+
+#: apps/door_opener/models.py:37
+msgid "Motor"
+msgstr "Silniczek"
+
+#: apps/door_opener/models.py:38
+msgid "Motors"
+msgstr "Silniczki"
+
+#: apps/door_opener/views.py:23 apps/door_opener/views.py:45
+msgid "Motor already working!"
+msgstr "Silniczek już działa!"
+
+#: apps/door_opener/views.py:32
+msgid "Door are closing."
+msgstr "Drzwi są zamknięte."
+
+#: apps/door_opener/views.py:54
+msgid "Door are opening."
+msgstr "Drzwi są otwarte."
+
+#: apps/door_opener/views.py:67
+msgid "Motor stopped spinning."
+msgstr "Silniczek przestał się obracać."
+
+#: apps/watering_system/models.py:9
+msgid "Turned on"
+msgstr "Włączone"
+
+#: apps/watering_system/models.py:20
+msgid "Pumping time (s)"
+msgstr "Czas pompowania (s)"
+
+#: apps/watering_system/models.py:23
+msgid "Pump"
+msgstr "Pompka"
+
+#: apps/watering_system/models.py:24
+msgid "Pumps"
+msgstr "Pompki"
+
+#: apps/watering_system/views.py:23
+msgid "Pump already working!"
+msgstr "Pompka już działa!"
+
+#: apps/watering_system/views.py:31
+msgid "Pump is turning off!"
+msgstr "Pompka się wyłącza!"
+
+#: apps/watering_system/views.py:41
+msgid "Pump turned on."
+msgstr "Pompka włączona."
+
+#: apps/watering_system/views.py:54
+msgid "Pump turned off."
+msgstr "Pompka wyłączona."
+
+#: project/settings.py:124
+msgid "Polish"
+msgstr "Polski"
+
+#: project/settings.py:125
+msgid "English"
+msgstr "Angielski"
+
+#: templates/core/index.html:5 templates/core/index.html:9
+msgid "Select a device"
+msgstr "Wybierz urządzenie"
+
+#: templates/core/index.html:15 templates/watering_system/index.html:7
+#: templates/watering_system/index.html:11
+msgid "Watering system"
+msgstr "System nawadniania"
+
+#: templates/core/index.html:20 templates/door_opener/index.html:7
+#: templates/door_opener/index.html:11
+msgid "Door opener"
+msgstr "Otwieracz drzwi"
+
+#: templates/door_opener/index.html:15 templates/watering_system/index.html:15
+msgid "Go back"
+msgstr "Powrót"
+
+#: templates/door_opener/index.html:19
+msgid "Click button to open/close door."
+msgstr "Naciśnij przycisk żeby otworzyć/zamknąć drzwi."
+
+#: templates/watering_system/index.html:19
+msgid "Click button to start/stop watering."
+msgstr "Naciśnij przycisk żeby włączyć/wyłączyć pompkę."

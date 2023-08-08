@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 3-rd party
+    'rosetta',
+
     # local
     'apps.core.apps.CoreConfig',
     'apps.accounts.apps.AccountsConfig',

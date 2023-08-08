@@ -10,3 +10,4 @@ Redis==4.6.0
 celery==5.3.1
 channels[daphne]==4.0.0
 channels_redis==4.1.0
+django-rosetta==0.9.9
