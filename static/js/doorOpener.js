@@ -41,7 +41,7 @@ const closeDoor = () => {
         }
     }
 
-    doorOpenerMessagesP.innerHTML = doorStatuses.CLOSING;
+    doorOpenerMessagesP.innerHTML = doorStatusesDisplay[doorStatuses.CLOSING];
     sendPost({
         url: closeDoorUrl,
         callback: callback
@@ -58,7 +58,7 @@ const openDoor = () => {
         }
     }
 
-    doorOpenerMessagesP.innerHTML = doorStatuses.OPENING;
+    doorOpenerMessagesP.innerHTML = doorStatusesDisplay[doorStatuses.OPENING];
     sendPost({
         url: openDoorUrl,
         callback: callback
@@ -93,24 +93,24 @@ const updateDoorStatusInfo = (door_status) => {
 
 const doorOpenHandler = () => {
     doorOpenerBtn.disabled = false;
-    doorOpenerMessagesP.innerHTML = doorStatuses.OPEN;
+    doorOpenerMessagesP.innerHTML = doorStatusesDisplay[doorStatuses.OPEN];
     window.doorStatus = doorStatuses.OPEN;
 }
 
 const doorClosedHandler = () => {
     doorOpenerBtn.disabled = false;
-    doorOpenerMessagesP.innerHTML = doorStatuses.CLOSED;
+    doorOpenerMessagesP.innerHTML = doorStatusesDisplay[doorStatuses.CLOSED];
     window.doorStatus = doorStatuses.CLOSED;
 }
 
 const doorOpeningHandler = () => {
     doorOpenerBtn.disabled = true;
-    doorOpenerMessagesP.innerHTML = doorStatuses.OPENING;
+    doorOpenerMessagesP.innerHTML = doorStatusesDisplay[doorStatuses.OPENING];
     window.doorStatus = doorStatuses.OPENING;
 }
 
 const doorClosingHandler = () => {
     doorOpenerBtn.disabled = true;
-    doorOpenerMessagesP.innerHTML = doorStatuses.CLOSING;
+    doorOpenerMessagesP.innerHTML = doorStatusesDisplay[doorStatuses.CLOSING];
     window.doorStatus = doorStatuses.CLOSING;
 }

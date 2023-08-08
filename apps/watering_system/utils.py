@@ -32,7 +32,7 @@ def turn_on_pump(pump: Pump) -> bool:
     pump.status = pump.PumpStatuses.ON
     pump.save()
 
-    send_status_to_consumers(pump.get_status_display())
+    send_status_to_consumers(pump.status)
 
     return True
 
@@ -52,12 +52,12 @@ def turn_off_pump(pump: Pump, flush_tasks=True) -> bool:
     if flush_tasks:
         pump.status = pump.PumpStatuses.TURNING_OFF
         pump.save()
-        send_status_to_consumers(pump.get_status_display())
+        send_status_to_consumers(pump.status)
 
         flush_tasks_by_name(turn_on_pump_task.__module__, turn_on_pump_task.__name__)
 
     pump.status = pump.PumpStatuses.OFF
     pump.save()
-    send_status_to_consumers(pump.get_status_display())
+    send_status_to_consumers(pump.status)
 
     return True

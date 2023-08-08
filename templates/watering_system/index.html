@@ -32,6 +32,7 @@
         window.pumpStatusUrl = "{% url 'watering_system:pump_status' %}";
 
         window.pumpStatuses = JSON.parse('{{ pump_statuses|safe }}');
+        window.pumpStatusesDisplay = JSON.parse('{{ pump_statuses_display|safe }}');
     })
   </script>
 

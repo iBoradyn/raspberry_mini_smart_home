@@ -35,7 +35,7 @@ def spin_motor_left(motor: Motor) -> bool:
     motor.status = motor.MotorStatuses.LEFT_SPINNING
     motor.save()
 
-    send_status_to_consumers(motor.get_door_status_display())
+    send_status_to_consumers(motor.door_status)
 
     return True
 
@@ -55,7 +55,7 @@ def spin_motor_right(motor: Motor) -> bool:
     motor.status = motor.MotorStatuses.RIGHT_SPINNING
     motor.save()
 
-    send_status_to_consumers(motor.get_door_status_display())
+    send_status_to_consumers(motor.door_status)
 
     return True
 
@@ -86,6 +86,6 @@ def turn_off_motor(motor: Motor, flush_tasks=True) -> bool:
         motor.door_status = motor.DoorStatuses.OPEN
     motor.status = motor.MotorStatuses.NO_SPINNING
     motor.save()
-    send_status_to_consumers(motor.get_door_status_display())
+    send_status_to_consumers(motor.door_status)
 
     return True

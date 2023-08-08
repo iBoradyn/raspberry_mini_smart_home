@@ -26,9 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const switchPump = () => {
     let url = turnOnPumpUrl;
-    let message = pumpStatuses.TURNING_OFF;
+    let message = pumpStatusesDisplay[pumpStatuses.TURNING_ON];
     if(pumpStatus === pumpStatuses.ON) {
         url = turnOffPumpUrl;
+        message = pumpStatusesDisplay[pumpStatuses.TURNING_OFF];
         pumpStatuses.TURNING_OFF;
     }
 
@@ -72,21 +73,21 @@ const updatePumpStatusInfo = (pump_status) => {
 
 const pumpOnHandler = () => {
     window.pumpStatus = pumpStatuses.ON;
-    wateringSystemMessagesP.innerHTML = pumpStatuses.ON;
+    wateringSystemMessagesP.innerHTML = pumpStatusesDisplay[pumpStatuses.ON];
     wateringSwitchBtn.innerHTML = 'Stop';
     wateringSwitchBtn.disabled = false;
 }
 
 const pumpTurningOffHandler = () => {
     window.pumpStatus = pumpStatuses.TURNING_OFF;
-    wateringSystemMessagesP.innerHTML = pumpStatuses.TURNING_OFF;
+    wateringSystemMessagesP.innerHTML = pumpStatusesDisplay[pumpStatuses.TURNING_OFF];
     wateringSwitchBtn.innerHTML = 'Stop';
     wateringSwitchBtn.disabled = true;
 }
 
 const pumpOffHandler = () => {
     window.pumpStatus = pumpStatuses.OFF;
-    wateringSystemMessagesP.innerHTML = pumpStatuses.OFF;
+    wateringSystemMessagesP.innerHTML = pumpStatusesDisplay[pumpStatuses.OFF];
     wateringSwitchBtn.innerHTML = 'Start';
     wateringSwitchBtn.disabled = false;
 }

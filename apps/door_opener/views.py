@@ -72,7 +72,7 @@ class TurnMotorOffView(View):  # noqa: D101
 
 class GetDoorStatus(View):  # noqa: D101
     def get(self, *args, **kwargs):  # noqa: D102
-        door_status = Motor.objects.first().get_door_status_display()
+        door_status = Motor.objects.first().door_status
 
         return JsonResponse(
             {
@@ -88,8 +88,13 @@ class MotorControlTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        door_statuses = dict(Motor.DoorStatuses.choices)
-        door_statuses = {str(k): str(v) for k, v in door_statuses.items()}
+        door_statuses = dict(
+            zip(Motor.DoorStatuses.__members__.keys(), Motor.DoorStatuses.values),
+        )
         context['door_statuses'] = json.dumps(door_statuses)
+
+        door_statuses_display = dict(Motor.DoorStatuses.choices)
+        door_statuses_display = {str(k): str(v) for k, v in door_statuses_display.items()}
+        context['door_statuses_display'] = json.dumps(door_statuses_display)
 
         return context

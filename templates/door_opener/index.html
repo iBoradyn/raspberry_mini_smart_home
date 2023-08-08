@@ -32,6 +32,7 @@
         window.doorStatusUrl = "{% url 'door_opener:door_status' %}";
 
         window.doorStatuses = JSON.parse('{{ door_statuses|safe }}');
+        window.doorStatusesDisplay = JSON.parse('{{ door_statuses_display|safe }}');
     })
   </script>
 

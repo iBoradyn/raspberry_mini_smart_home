@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +12,27 @@
   {% block extra_css %}{% endblock %}
 </head>
 <body>
+  <form action="{% url 'set_language' %}" method="post">
+    {% csrf_token %}
+    {% get_current_language as LANGUAGE_CODE %}
+    {% if LANGUAGE_CODE == 'en' %}
+      {% language 'pl' %}
+        <button type="submit"
+                name="language"
+                value="pl">
+          PL
+        </button>
+      {% endlanguage %}
+    {% elif LANGUAGE_CODE == 'pl' %}
+      {% language 'en' %}
+        <button type="submit"
+                name="language"
+                value="en">
+          EN
+        </button>
+      {% endlanguage %}
+    {% endif %}
+  </form>
 
   {% block content %}{% endblock %}
 

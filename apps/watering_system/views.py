@@ -59,7 +59,7 @@ class TurnOffPumpView(View):  # noqa: D101
 
 class GetPumpStatus(View):  # noqa: D101
     def get(self, *args, **kwargs):  # noqa: D102
-        pump_status = Pump.objects.first().get_status_display()
+        pump_status = Pump.objects.first().status
 
         return JsonResponse(
             {
@@ -75,8 +75,13 @@ class PumpControlTemplateView(TemplateView):
     def get_context_data(self, **kwargs):  # noqa: D102
         context = super().get_context_data(**kwargs)
 
-        pump_statuses = dict(Pump.PumpStatuses.choices)
-        pump_statuses = {str(k): str(v) for k, v in pump_statuses.items()}
+        pump_statuses = dict(
+            zip(Pump.PumpStatuses.__members__.keys(), Pump.PumpStatuses.values),
+        )
         context['pump_statuses'] = json.dumps(pump_statuses)
+
+        pump_statuses_display = dict(Pump.PumpStatuses.choices)
+        pump_statuses_display = {str(k): str(v) for k, v in pump_statuses_display.items()}
+        context['pump_statuses_display'] = json.dumps(pump_statuses_display)
 
         return context
