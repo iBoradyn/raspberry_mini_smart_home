@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 
     # 3-rd party
     'rosetta',
+    'django_celery_beat',
 
     # local
     'apps.core.apps.CoreConfig',
