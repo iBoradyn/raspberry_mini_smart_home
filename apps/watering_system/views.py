@@ -1,13 +1,23 @@
 """Watering system views."""
+# Standard Library
 import json
 
 # Django
 from django.http import JsonResponse
-from django.views import View
-from django.views.generic import TemplateView
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.views import View
+from django.views.generic import CreateView
+from django.views.generic import DeleteView
+from django.views.generic import ListView
+from django.views.generic import TemplateView
+from django.views.generic import UpdateView
+
+# 3rd-party
+from django_celery_beat.models import PeriodicTask
 
 # Local
+from .forms import ScheduleForm
 from .models import Pump
 from .tasks import turn_on_pump_task
 from .utils import turn_off_pump
@@ -69,7 +79,7 @@ class GetPumpStatus(View):  # noqa: D101
         )
 
 
-class PumpControlTemplateView(TemplateView):
+class PumpControlTemplateView(TemplateView):  # noqa: D101
     template_name = 'watering_system/index.html'
 
     def get_context_data(self, **kwargs):  # noqa: D102
@@ -85,3 +95,47 @@ class PumpControlTemplateView(TemplateView):
         context['pump_statuses_display'] = json.dumps(pump_statuses_display)
 
         return context
+
+
+class SchedulesListView(ListView):  # noqa: D101
+    template_name = 'watering_system/schedules/schedules_list.html'
+    model = PeriodicTask
+
+    def get_queryset(self):  # noqa: D102
+        qr = super().get_queryset()
+
+        return qr.filter(task='apps.watering_system.tasks.turn_on_pump_task')
+
+
+class ScheduleCreateView(CreateView):  # noqa: D101
+    template_name = 'watering_system/schedules/create_schedule.html'
+    form_class = ScheduleForm
+    success_url = reverse_lazy('watering_system:schedules_list')
+
+
+class ScheduleUpdateView(UpdateView):  # noqa: D101
+    template_name = 'watering_system/schedules/update_schedule.html'
+    model = PeriodicTask
+    form_class = ScheduleForm
+    success_url = reverse_lazy('watering_system:schedules_list')
+
+    def get_form_kwargs(self):  # noqa: D102
+        kwargs = super().get_form_kwargs()
+        crontab = kwargs['instance'].crontab
+
+        days = crontab.day_of_week
+
+        kwargs['initial']['hour'] = crontab.hour
+        kwargs['initial']['minute'] = crontab.minute
+        kwargs['initial']['enabled'] = kwargs['instance'].enabled
+
+        kwargs['initial']['day_of_week'] = list(range(1, 8))
+        if days != '*':
+            kwargs['initial']['day_of_week'] = days.split(',')
+
+        return kwargs
+
+
+class ScheduleDeleteView(DeleteView):  # noqa: D101
+    model = PeriodicTask
+    success_url = reverse_lazy('watering_system:schedules_list')

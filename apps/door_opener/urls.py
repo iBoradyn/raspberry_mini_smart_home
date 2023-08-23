@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 # Local
-from .views import GetDoorStatus, MotorControlTemplateView
 from .views import CloseDoorView
+from .views import GetDoorStatus
+from .views import MotorControlTemplateView
 from .views import OpenDoorView
 
 app_name = 'door_opener'

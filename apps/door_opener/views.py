@@ -1,4 +1,5 @@
 """Door opener views."""
+# Standard Library
 import json
 
 # Django
@@ -82,10 +83,10 @@ class GetDoorStatus(View):  # noqa: D101
         )
 
 
-class MotorControlTemplateView(TemplateView):
+class MotorControlTemplateView(TemplateView):  # noqa: D101
     template_name = 'door_opener/index.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):  # noqa: D102
         context = super().get_context_data(**kwargs)
 
         door_statuses = dict(

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # 3-rd party
     'rosetta',
     'django_celery_beat',
+    'fontawesomefree',
 
     # local
     'apps.core.apps.CoreConfig',
@@ -131,7 +132,7 @@ LANGUAGES = [
     ('en', _('English')),
 ]
 LOCALE_PATHS = [
-    os.path.join(BASE_DIR, "locale"),
+    os.path.join(BASE_DIR, 'locale'),
 ]
 
 TIME_ZONE = 'Europe/Warsaw'
@@ -172,13 +173,12 @@ CELERY = {
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # Channels
-ASGI_APPLICATION = "project.asgi.application"
+ASGI_APPLICATION = 'project.asgi.application'
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
         },
     },
 }
-

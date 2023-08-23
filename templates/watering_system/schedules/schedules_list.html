@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load schedule_filters %}
+{% load static %}
+{% load i18n %}
+{% csrf_token %}
+
+{% block title %}
+  {{ block.super }} - {% trans 'Watering system schedules' %}
+{% endblock %}
+
+{% block content %}
+  <h1 class="text-center mt-3">{% trans 'Watering system schedules' %}</h1>
+  <hr class="my-4">
+
+  <div class="d-flex justify-content-between px-5">
+    <a class="btn btn-secondary" href="{% url 'watering_system:index' %}">{% trans 'Go back' %}</a>
+    <a class="btn btn-success" href="{% url 'watering_system:add_schedule' %}">{% trans 'Add new schedule' %}</a>
+    <div></div>
+  </div>
+
+  <div id="watering_system_schedules" class="container">
+    {% for schedule in object_list %}
+      <div class="border bg-light d-flex justify-content-between mt-2">
+        <div class="fw-bold h4 my-0 d-flex align-items-center px-2 py-5">
+          {{ schedule|get_time }}
+        </div>
+        <div class="w-100 my-0 d-flex align-items-center border-start border-end">
+          <div class="w-100 row p-3">
+            {% for day in schedule|get_days %}
+              <div class="col-lg-3 col-md-4 col-sm-6 text-center p-1">
+                <div class="border bg-info py-1">
+                  {{ day }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="my-0 d-flex flex-column justify-content-around px-2">
+          <a href="{% url 'watering_system:update_schedule' schedule.pk %}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+          <form class="delete_schedule_form" action="{% url 'watering_system:delete_schedule' schedule.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100"><i class="fa-solid fa-trash"></i></button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.delete_schedule_form').forEach((elem) => {
+          elem.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if(confirm("{% trans 'Are you sure you want to delete schedule?' %}")) {
+                e.currentTarget.submit();
+            }
+        });
+      });
+    });
+  </script>
+{% endblock %}

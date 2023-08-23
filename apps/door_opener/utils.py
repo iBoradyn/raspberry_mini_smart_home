@@ -1,18 +1,20 @@
 """Door opener utils."""
+# 3rd-party
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-# 3rd-party
 from gpiozero import OutputDevice
+
+# Project
+from apps.core.utils import flush_tasks_by_name
 
 # Local
 from .models import Motor
-from apps.core.utils import flush_tasks_by_name
 
 relayLeft = OutputDevice(17, False)
 relayRight = OutputDevice(22, False)
 
 
-def send_status_to_consumers(status):
+def send_status_to_consumers(status):  # noqa: D103
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
         'door_status',
@@ -20,7 +22,7 @@ def send_status_to_consumers(status):
     )
 
 
-def spin_motor_left(motor: Motor) -> bool:
+def spin_motor_left(motor: Motor) -> bool:  # noqa: D103
     """Start spinning motor in 'left' direction.
 
     :return: True on success, False if motor is already spinning in that direction.
@@ -40,7 +42,7 @@ def spin_motor_left(motor: Motor) -> bool:
     return True
 
 
-def spin_motor_right(motor: Motor) -> bool:
+def spin_motor_right(motor: Motor) -> bool:  # noqa: D103
     """Start spinning motor in 'right' direction.
 
     :return: True on success, False if motor is already spinning in that direction.
@@ -60,7 +62,7 @@ def spin_motor_right(motor: Motor) -> bool:
     return True
 
 
-def turn_off_motor(motor: Motor, flush_tasks=True) -> bool:
+def turn_off_motor(motor: Motor, flush_tasks=True) -> bool:  # noqa: D103
     """Turn off motor.
 
     :return: True on success, False if motor is already turned off.
@@ -69,6 +71,7 @@ def turn_off_motor(motor: Motor, flush_tasks=True) -> bool:
             motor.status == motor.MotorStatuses.TURNING_OFF_SPINNING:
         return False
 
+    # Local
     from .tasks import spin_motor
 
     relayLeft.off()

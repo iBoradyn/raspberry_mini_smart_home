@@ -12,7 +12,7 @@ class Motor(models.Model):  # noqa: D101
         TURNING_ON_SPINNING = 'TURNING_ON', _('Turning on')
         TURNING_OFF_SPINNING = 'TURNING_OFF', _('Turning off')
 
-    class DoorStatuses(models.TextChoices):
+    class DoorStatuses(models.TextChoices):  # noqa: D106
         OPEN = 'OPEN', _('Open')
         CLOSED = 'CLOSED', _('Closed')
         OPENING = 'OPENING', _('Opening')

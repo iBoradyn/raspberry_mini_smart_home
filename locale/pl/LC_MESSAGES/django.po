@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 20:46+0200\n"
-"PO-Revision-Date: 2023-08-08 20:50+0200\n"
+"POT-Creation-Date: 2023-08-23 18:29+0200\n"
+"PO-Revision-Date: 2023-08-23 18:33+0200\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -83,6 +83,58 @@ msgstr "Drzwi są otwarte."
 msgid "Motor stopped spinning."
 msgstr "Silniczek przestał się obracać."
 
+#: apps/watering_system/forms.py:13
+#: apps/watering_system/templatetags/schedule_filters.py:9
+msgid "Monday"
+msgstr "Poniedziałek"
+
+#: apps/watering_system/forms.py:14
+#: apps/watering_system/templatetags/schedule_filters.py:10
+msgid "Tuesday"
+msgstr "Wtorek"
+
+#: apps/watering_system/forms.py:15
+#: apps/watering_system/templatetags/schedule_filters.py:11
+msgid "Wednesday"
+msgstr "Środa"
+
+#: apps/watering_system/forms.py:16
+#: apps/watering_system/templatetags/schedule_filters.py:12
+msgid "Thursday"
+msgstr "Czwartek"
+
+#: apps/watering_system/forms.py:17
+#: apps/watering_system/templatetags/schedule_filters.py:13
+msgid "Friday"
+msgstr "Piątek"
+
+#: apps/watering_system/forms.py:18
+#: apps/watering_system/templatetags/schedule_filters.py:14
+msgid "Saturday"
+msgstr "Sobota"
+
+#: apps/watering_system/forms.py:19
+#: apps/watering_system/templatetags/schedule_filters.py:8
+#: apps/watering_system/templatetags/schedule_filters.py:15
+msgid "Sunday"
+msgstr "Niedziela"
+
+#: apps/watering_system/forms.py:22
+msgid "Hour"
+msgstr "Godzina"
+
+#: apps/watering_system/forms.py:23
+msgid "Minute"
+msgstr "Minuta"
+
+#: apps/watering_system/forms.py:27
+msgid "Days"
+msgstr "Dni"
+
+#: apps/watering_system/forms.py:29
+msgid "Enabled"
+msgstr "Włączony"
+
 #: apps/watering_system/models.py:9
 msgid "Turned on"
 msgstr "Włączone"
@@ -99,27 +151,27 @@ msgstr "Pompka"
 msgid "Pumps"
 msgstr "Pompki"
 
-#: apps/watering_system/views.py:23
+#: apps/watering_system/views.py:26
 msgid "Pump already working!"
 msgstr "Pompka już działa!"
 
-#: apps/watering_system/views.py:31
+#: apps/watering_system/views.py:34
 msgid "Pump is turning off!"
 msgstr "Pompka się wyłącza!"
 
-#: apps/watering_system/views.py:41
+#: apps/watering_system/views.py:44
 msgid "Pump turned on."
 msgstr "Pompka włączona."
 
-#: apps/watering_system/views.py:54
+#: apps/watering_system/views.py:57
 msgid "Pump turned off."
 msgstr "Pompka wyłączona."
 
-#: project/settings.py:129
+#: project/settings.py:131
 msgid "Polish"
 msgstr "Polski"
 
-#: project/settings.py:130
+#: project/settings.py:132
 msgid "English"
 msgstr "Angielski"
 
@@ -138,6 +190,9 @@ msgid "Door opener"
 msgstr "Otwieracz drzwi"
 
 #: templates/door_opener/index.html:15 templates/watering_system/index.html:15
+#: templates/watering_system/schedules/create_schedule.html:37
+#: templates/watering_system/schedules/schedules_list.html:16
+#: templates/watering_system/schedules/update_schedule.html:37
 msgid "Go back"
 msgstr "Powrót"
 
@@ -145,6 +200,51 @@ msgstr "Powrót"
 msgid "Click button to open/close door."
 msgstr "Naciśnij przycisk żeby otworzyć/zamknąć drzwi."
 
-#: templates/watering_system/index.html:19
+#: templates/watering_system/index.html:16
+msgid "Schedules"
+msgstr "Harmonogramy"
+
+#: templates/watering_system/index.html:20
 msgid "Click button to start/stop watering."
 msgstr "Naciśnij przycisk żeby włączyć/wyłączyć pompkę."
+
+#: templates/watering_system/schedules/create_schedule.html:7
+#| msgid "Watering system"
+msgid "Watering system schedule creation"
+msgstr "Tworzenie harmonogramu systemu nawadniania"
+
+#: templates/watering_system/schedules/create_schedule.html:33
+msgid "Create watering system schedules"
+msgstr "Stwórz harmonogram systemu nawadniania"
+
+#: templates/watering_system/schedules/create_schedule.html:77
+msgid "Create"
+msgstr "Stwórz"
+
+#: templates/watering_system/schedules/schedules_list.html:8
+#: templates/watering_system/schedules/schedules_list.html:12
+#| msgid "Watering system"
+msgid "Watering system schedules"
+msgstr "Harmonogramy systemu nawadniania"
+
+#: templates/watering_system/schedules/schedules_list.html:17
+msgid "Add new schedule"
+msgstr "Dodaj nowy harmonogram"
+
+#: templates/watering_system/schedules/schedules_list.html:57
+msgid "Are you sure you want to delete schedule?"
+msgstr "Czy na pewno chcesz usunąć harmonogram?"
+
+#: templates/watering_system/schedules/update_schedule.html:7
+#| msgid "Watering system"
+msgid "Watering system schedule edit"
+msgstr "Edycja harmonogramu systemu nawadniania"
+
+#: templates/watering_system/schedules/update_schedule.html:33
+#| msgid "Watering system"
+msgid "Edit watering system schedules"
+msgstr "Edytuj harmonogram systemu nawadniania"
+
+#: templates/watering_system/schedules/update_schedule.html:85
+msgid "Edit"
+msgstr "Edytuj"

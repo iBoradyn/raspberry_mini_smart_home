@@ -1,8 +1,10 @@
 """Project asgi routing."""
+# Django
 from django.urls import re_path
 
-from apps.watering_system.consumers import PumpStatusConsumer
+# Project
 from apps.door_opener.consumers import DoorStatusConsumer
+from apps.watering_system.consumers import PumpStatusConsumer
 
 websocket_urlpatterns = [
     re_path(r'ws/pump_status/$', PumpStatusConsumer.as_asgi()),

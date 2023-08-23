@@ -11,8 +11,9 @@
   <h1 class="text-center mt-3">{% trans 'Watering system' %}</h1>
   <hr class="my-4">
 
-  <div class="ms-1 ps-1 ms-sm-3 ps-sm-3 ms-md-4 ps-md-4 ms-lg-5 ps-lg-5">
+  <div class="d-flex justify-content-between px-5">
     <a class="btn btn-secondary" href="{% url 'core:index' %}">{% trans 'Go back' %}</a>
+    <a class="btn btn-secondary" href="{% url 'watering_system:schedules_list' %}">{% trans 'Schedules' %}</a>
   </div>
 
   <div id="watering_system" class="container text-center">

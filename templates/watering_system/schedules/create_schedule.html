@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% csrf_token %}
+
+{% block title %}
+  {{ block.super }} - {% trans 'Watering system schedule creation' %}
+{% endblock %}
+
+{% block extra_css %}
+  <style>
+    #id_day_of_week label {
+        border: 1px solid black;
+        width: 100%;
+        margin-bottom: .2em;
+        padding: .5em 1em;
+
+        cursor: pointer;
+        user-select: none;
+
+        transition-property: background, border-color, color;
+        transition-duration: .2s;
+        transition-timing-function: linear;
+    }
+
+    #id_day_of_week input {
+        display: none;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1 class="text-center mt-3">{% trans 'Create watering system schedules' %}</h1>
+  <hr class="my-4">
+
+  <div class="d-flex justify-content-between px-5">
+    <a class="btn btn-secondary" href="{% url 'watering_system:schedules_list' %}">{% trans 'Go back' %}</a>
+    <div></div>
+    <div></div>
+  </div>
+
+  <div id="watering_system_add_schedules" class="container">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="row">
+        {% for field, message in form.errors.items %}
+          <div class="alert alert-danger">
+            {{ field }} {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <label for="id_hour">{{ form.hour.label }}</label>
+          {{ form.hour }}
+        </div>
+        <div class="col-6">
+          <label for="id_minute">{{ form.minute.label }}</label>
+          {{ form.minute }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          {{ form.day_of_week }}
+        </div>
+      </div>
+
+      <div class="row mt-3 mb-2">
+        <div class="col-12">
+          {{ form.enabled }}
+          <label for="id_enabled">{{ form.enabled.label }}</label>
+        </div>
+      </div>
+
+      <input type="submit" class="btn btn-primary my-2" value="{% trans 'Create' %}">
+    </form>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    const checkboxStyleChange = (elem) => {
+      if(elem.checked) {
+        elem.parentElement.style.background = '#0d6efd';
+        elem.parentElement.style.borderColor = '#0d6efd';
+        elem.parentElement.style.color = 'white';
+      } else {
+        elem.parentElement.style.background = 'transparent';
+        elem.parentElement.style.borderColor = 'black';
+        elem.parentElement.style.color = 'black';
+      }
+    }
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const daysCheckboxes = document.querySelectorAll('#id_day_of_week input');
+
+      daysCheckboxes.forEach((elem) => {
+        checkboxStyleChange(elem);
+
+        elem.addEventListener('change', (e) => {
+          const elem = e.currentTarget;
+
+          checkboxStyleChange(elem);
+        })
+      })
+    })
+  </script>
+{% endblock %}
