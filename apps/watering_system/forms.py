@@ -14,13 +14,13 @@ from apps.watering_system.models import Pump
 
 class ScheduleForm(forms.ModelForm):  # noqa: D101
     DAYS = (
+        (0, _('Sunday')),
         (1, _('Monday')),
         (2, _('Tuesday')),
         (3, _('Wednesday')),
         (4, _('Thursday')),
         (5, _('Friday')),
         (6, _('Saturday')),
-        (7, _('Sunday')),
     )
 
     hour = forms.IntegerField(max_value=23, min_value=0, initial=0, label=_('Hour'))

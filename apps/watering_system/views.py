@@ -129,7 +129,7 @@ class ScheduleUpdateView(UpdateView):  # noqa: D101
         kwargs['initial']['minute'] = crontab.minute
         kwargs['initial']['enabled'] = kwargs['instance'].enabled
 
-        kwargs['initial']['day_of_week'] = list(range(1, 8))
+        kwargs['initial']['day_of_week'] = list(range(7))
         if days != '*':
             kwargs['initial']['day_of_week'] = days.split(',')
 
