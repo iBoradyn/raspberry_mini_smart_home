@@ -39,6 +39,22 @@ An application that controls the rotation of the mini-motor that opens and close
 - Login to admin panel to create pump and motor objects and set timings.
 
 
+## SASS File Watcher config (PyCharm)
+
+Most scss files are imported to `base.scss` which is compiled into `base.css` in css directory.
+If the file is not imported into `base.scss`, it will be compiled as a separate file with the same name in the css directory. 
+> NOTE: The files are created directly in the `css` directory even if the source files are in a subdirectory.
+
+1. File > Settings > Tools > File Watchers > Add('+') > SCSS
+2. Scope: '...' > Add scope('+') > Local
+   - Select scss directory and click 'Include Recursively'
+   - Click 'Apply' and 'OK'
+3. Program: Path to sass
+4. Arguments: ```--no-cache --update $FileName$:$ProjectFileDir$/static/css/$FileNameWithoutExtension$.min.css --style compressed```
+5. Output paths to refresh: ```../css/$FileNameWithoutExtension$.min.css:../css/$FileNameWithoutExtension$.min.css.map```
+6. OK > Apply > OK
+
+
 ## Project structure
 
 ```
