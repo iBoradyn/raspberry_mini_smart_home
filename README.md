@@ -4,10 +4,10 @@ Api project for controlling electrical devices via raspberry pi
 
 ## Applications
 ### Watering system
-Application managing a plant watering system.
+Application managing a plant watering system. It allows to manually start and stop automatic watering and create a schedule.
 
 ### Door opener
-An application that controls the rotation of the mini-motor that opens and closes the door on the slide gate.
+An application that controls the rotation of the mini-motor that opens and closes the door latch.
 
 
 ## Required services
@@ -48,26 +48,26 @@ raspberry_mini_smart_home
 │   requirements-dev.txt
 │   .gitignore
 │   README.md
-└───apps
-│   └───accounts
-│   └───core
-│   └───door_opener
+├───apps
+│   ├───accounts
+│   ├───core
+│   ├───door_opener
 │   └───watering_system
-└───locale
+├───locale
 │   └───pl
-└───project
+├───project
 │   │   asgi.py
 │   │   celery_config.py
 │   │   routing.py
 │   │   settings.py
 │   │   urls.py
-│   │   wsgi.py
-└───static
-│   └───css
+│   └   wsgi.py
+├───static
+│   ├───css
 │   └───js
 └───templates
     │ base.html
-    └───core
-    └───door_opener
+    ├───core
+    ├───door_opener
     └───watering_system
 ```
