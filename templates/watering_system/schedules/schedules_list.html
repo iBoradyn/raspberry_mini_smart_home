@@ -19,13 +19,26 @@
   </div>
 
   <div id="watering_system_schedules" class="container">
+
     {% for schedule in object_list %}
       <div class="border bg-light d-flex justify-content-between mt-2">
-        <div class="fw-bold h4 my-0 d-flex align-items-center px-2 py-5">
+        <div class="my-0 d-flex align-items-center ps-2 py-5">
+          {% if schedule.enabled %}
+          <div class="text-success">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          {% else %}
+          <div class="text-danger">
+            <i class="fa-solid fa-circle-xmark"></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class="fw-bold h4 my-0 d-flex align-items-center pe-2 py-5">
           {{ schedule|get_time }}
         </div>
         <div class="w-100 my-0 d-flex align-items-center border-start border-end">
           <div class="w-100 row p-3">
+
             {% for day in schedule|get_days %}
               <div class="col-lg-3 col-md-4 col-sm-6 text-center p-1">
                 <div class="border bg-info py-1">
@@ -33,6 +46,7 @@
                 </div>
               </div>
             {% endfor %}
+
           </div>
         </div>
         <div class="my-0 d-flex flex-column justify-content-around px-2">
@@ -44,6 +58,7 @@
         </div>
       </div>
     {% endfor %}
+
   </div>
 {% endblock %}
 

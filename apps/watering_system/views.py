@@ -102,7 +102,7 @@ class SchedulesListView(ListView):  # noqa: D101
     model = PeriodicTask
 
     def get_queryset(self):  # noqa: D102
-        qr = super().get_queryset()
+        qr = super().get_queryset().order_by('-enabled', 'crontab__hour', 'crontab__minute')
 
         return qr.filter(task='apps.watering_system.tasks.turn_on_pump_task')
 
