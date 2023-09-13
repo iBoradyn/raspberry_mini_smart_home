@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sidebarCollapseIcon = document.querySelector('#header_collapse_icon i');
-    sidebarCollapseIcon.addEventListener('click', toggleSidebarPop);
 
-    showActiveSidebarLink();
+    if(sidebarCollapseIcon) {
+        sidebarCollapseIcon.addEventListener('click', toggleSidebarPop);
+
+        showActiveSidebarLink();
+    }
 });
 
 const toggleSidebarPop = () => {

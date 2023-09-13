@@ -142,7 +142,13 @@ $danger-transparent: #dc354590;
       }
     }
 
-    .nav-link.active, .sub-link.active {
+    .nav-link.active {
+      background-color: $secondary;
+    }
+    .nav-link.sub-active {
+      background-color: $secondary;
+    }
+    .sub-link.active {
       background-color: $secondary;
     }
 

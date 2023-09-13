@@ -1,13 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const navItemsCollapseIcon = document.querySelector('.sub-items-collapse-icon');
 
-    setSubNavListsHeights();
+    if(navItemsCollapseIcon) {
+        setSubNavListsHeights();
 
-    navItemsCollapseIcon.addEventListener('click', (e) => {
-        toggleSubNavList(e.currentTarget);
-    });
+        navItemsCollapseIcon.addEventListener('click', (e) => {
+            toggleSubNavList(e.currentTarget);
+        });
 
-    showActiveSidebarSubLink();
+        showActiveSidebarSubLink();
+        expandActiveLinkSubList();
+    }
 });
 
 const setSubNavListsHeights = () => {
@@ -68,13 +71,23 @@ const toggleSubNavList = (navList, animation=true) => {
     }
 }
 
+const expandActiveLinkSubList = () => {
+    const navLink = document.querySelector('.nav-link.active');
+
+    if(navLink && navLink.parentElement.classList.contains('dropdown')) {
+        const icon = navLink.nextElementSibling;
+
+        toggleSubNavList(icon, false);
+    }
+}
+
 const showActiveSidebarSubLink = () => {
     const subNavSelector = document.querySelector('#active_sub_nav_link_selector').innerHTML.trim().split(',');
 
-    if (subNavSelector) {
+    if (subNavSelector[0]) {
         const navLink = document.querySelector(`#${subNavSelector[0]} .sub-item:nth-child(${subNavSelector[1]}) .sub-link`);
 
-        navLink.parentElement.parentElement.previousElementSibling.querySelector('.nav-link').classList.add('active');
+        navLink.parentElement.parentElement.previousElementSibling.querySelector('.nav-link').classList.add('sub-active');
         navLink.classList.add('active');
         navLink.setAttribute('aria-current', 'page');
 
