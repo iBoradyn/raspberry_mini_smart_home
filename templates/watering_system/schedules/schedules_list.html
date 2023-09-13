@@ -8,14 +8,14 @@
   {{ block.super }} - {% trans 'Watering system schedules' %}
 {% endblock %}
 
+{% block active_sub_nav_link %}id_sl_watering_system,1{% endblock %}
+
 {% block content %}
   <h1 class="text-center mt-3">{% trans 'Watering system schedules' %}</h1>
   <hr class="my-4">
 
-  <div class="d-flex justify-content-between px-5">
-    <a class="btn btn-secondary" href="{% url 'watering_system:index' %}">{% trans 'Go back' %}</a>
+  <div class="text-center py-3">
     <a class="btn btn-success" href="{% url 'watering_system:add_schedule' %}">{% trans 'Add new schedule' %}</a>
-    <div></div>
   </div>
 
   <div id="watering_system_schedules" class="container">

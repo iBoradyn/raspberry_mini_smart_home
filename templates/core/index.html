@@ -5,20 +5,28 @@
   {{ block.super }} - {% trans 'Select a device' %}
 {% endblock %}
 
+{% block header %}
+
+{% endblock %}
+
 {% block content %}
   <h1 class="text-center mt-3">{% trans 'Select a device' %}</h1>
   <hr class="my-4">
 
   <div class="container text-center">
-    <div>
-      <a class="btn btn-primary py-3 px-4" href="{% url 'watering_system:index' %}">
-        {% trans 'Watering system' %}
-      </a>
-    </div>
-    <div>
-      <a class="btn btn-primary mt-3 py-3 px-4" href="{% url 'door_opener:index' %}">
-        {% trans 'Door opener' %}
-      </a>
+    <div class="row">
+      <div class="col-6">
+        <a class="btn bg-light text-primary w-75 py-5 border border-secondary" href="{% url 'watering_system:index' %}">
+          <i class="fa-solid fa-seedling h1"></i>
+          <p class="h2 mt-3">{% trans 'Watering system' %}</p>
+        </a>
+      </div>
+      <div class="col-6">
+        <a class="btn bg-light text-primary w-75 py-5 border border-secondary" href="{% url 'door_opener:index' %}">
+          <i class="fa-solid fa-unlock h1"></i>
+          <p class="h2 mt-3">{% trans 'Door opener' %}</p>
+        </a>
+      </div>
     </div>
   </div>
 {% endblock %}

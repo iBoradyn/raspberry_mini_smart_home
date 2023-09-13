@@ -3,7 +3,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <!-- metas -->
+  <meta charset="utf-8">
+  <meta name="author" content="Igor Boradyn">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="keywords" content="watering system door opener raspberrypi raspberry">
+  <meta name="description" content="An application that connects to the program controlling electrical devices via raspberry pi">
+
+  <!-- title -->
   <title>{% block title %}Mini smart home{% endblock %}</title>
 
   <!-- Bootstrap -->
@@ -14,46 +22,49 @@
   <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
 
+  <!-- Sidebar -->
+  <link href="{% static 'css/sidebar.min.css' %}" rel="stylesheet" type="text/css">
+
+  <link href="{% static 'css/base.min.css' %}" rel="stylesheet" type="text/css">
 
   {% block extra_css %}{% endblock %}
 </head>
-<body>
-  <form class="position-absolute top-25 end-0 pe-5" action="{% url 'set_language' %}" method="post">
-    {% csrf_token %}
-    {% get_current_language as LANGUAGE_CODE %}
-    {% if LANGUAGE_CODE == 'en' %}
-      {% language 'pl' %}
-        <button type="submit"
-                name="language"
-                value="pl"
-                class="btn btn-info">
-          PL
-        </button>
-      {% endlanguage %}
-    {% elif LANGUAGE_CODE == 'pl' %}
-      {% language 'en' %}
-        <button type="submit"
-                name="language"
-                value="en"
-                class="btn btn-info">
-          EN
-        </button>
-      {% endlanguage %}
-    {% endif %}
-  </form>
+<body class="panel-body">
+  {% block header %}
+    {% include '_partials/header.html' %}
 
-  {% block content %}{% endblock %}
+    <!-- Sidebar links activators start -->
+    <div id="active_nav_link_number" class="d-none">{% block active_nav_link %}{% endblock %}</div>
+    <div id="active_sub_nav_link_selector" class="d-none">{% block active_sub_nav_link %}{% endblock %}</div>
+    <!-- Sidebar links activators end -->
+  {% endblock %}
+
+  {% include '_partials/lang_change.html' %}
+
+  <div class="panel-container">
+    <div class="panel-content-wrap">
+      {% block content %} {% endblock %}
+    </div>
+    {% block footer %}
+      {% include '_partials/footer.html' %}
+    {% endblock %}
+    </div>
 
   <!-- Bootstrap -->
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
+  <!-- Requests -->
   <script src="{% static 'js/getCookie.js' %}"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
         window.csrfToken = getCookie('csrftoken');
-    })
+    });
   </script>
   <script src="{% static 'js/sendRequest.js' %}"></script>
+
+  <!-- Sidebar -->
+  <script src="{% static 'js/sidebar.js' %}"></script>
+  <script src="{% static 'js/subNavList.js' %}"></script>
 
   {% block extra_js %}{% endblock %}
 </body>

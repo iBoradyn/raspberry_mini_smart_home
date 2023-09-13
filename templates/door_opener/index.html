@@ -7,13 +7,11 @@
   {{ block.super }} - {% trans 'Door opener' %}
 {% endblock %}
 
+{% block active_nav_link %}2{% endblock %}
+
 {% block content %}
   <h1 class="text-center mt-3">{% trans 'Door opener' %}</h1>
   <hr class="my-4">
-
-  <div class="ms-1 ps-1 ms-sm-3 ps-sm-3 ms-md-4 ps-md-4 ms-lg-5 ps-lg-5">
-    <a class="btn btn-secondary" href="{% url 'core:index' %}">{% trans 'Go back' %}</a>
-  </div>
 
   <div id="door_opener" class="container text-center">
     <h3 class="mb-2">{% trans 'Click button to open/close door.' %}</h3>

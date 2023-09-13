@@ -7,12 +7,14 @@
   {{ block.super }} - {% trans 'Watering system' %}
 {% endblock %}
 
+{% block active_nav_link %}1{% endblock %}
+
 {% block content %}
   <h1 class="text-center mt-3">{% trans 'Watering system' %}</h1>
   <hr class="my-4">
 
   <div class="d-flex justify-content-between px-5">
-    <a class="btn btn-secondary" href="{% url 'core:index' %}">{% trans 'Go back' %}</a>
+    <div></div>
     <a class="btn btn-secondary" href="{% url 'watering_system:schedules_list' %}">{% trans 'Schedules' %}</a>
   </div>
 
