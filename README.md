@@ -1,5 +1,5 @@
 # Raspberry mini smart home
-Api project for controlling electrical devices via raspberry pi
+Api project with in-build views for controlling electrical devices via raspberry pi.
 
 
 ## Applications
