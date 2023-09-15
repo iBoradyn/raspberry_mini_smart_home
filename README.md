@@ -39,6 +39,36 @@ An application that controls the rotation of the mini-motor that opens and close
 - Login to admin panel to create pump and motor objects and set timings.
 
 
+## Raspberry Pi GPIO pins
+Pin usage in live setup.
+
+#### Requirements
+- Raspberry Pi 4B
+- Relay modules
+  - one for watering system
+  - two for door opener
+
+#### Watering system requirements
+- Watering pump for watering system
+- External power source ```(e.g. charger with volts matching pumps volts)```
+
+#### Door opener requirements
+- Mini motor for door opener
+- External power source ```(e.g. charger/battery with volts matching motor volts)```
+
+### Watering system
+1. Connect `GPIO15` pin with relay module `IN` pin.
+2. Connect ground wire from external source to ground on pump. 
+3. Connect relay `NO output` to power on pump.
+4. Connect power wire from external source to `COM output`.
+
+### Door opener
+1. Connect `GPIO17` to first relay(`R1`) IN pin and `GPIO22` to second relay(`R2`) `IN` pin.
+2. Split ground wire from external source into two ends and connect them to `R1` and `R2` `NC outputs`. 
+3. Connect `R1` `NO output` to power on motor.
+4. Connect `R2` `NO output` to ground on motor.
+5. Split power wire from external source into two ends and connect them to `R1` and `R2` `COM outputs`. 
+
 ## SASS File Watcher config (PyCharm)
 
 Most scss files are imported to `base.scss` which is compiled into `base.css` in css directory.
