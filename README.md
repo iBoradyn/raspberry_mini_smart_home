@@ -1,13 +1,25 @@
 # Raspberry mini smart home
-Api project with in-build views for controlling electrical devices via raspberry pi.
+Project with endpoints, webhooks and ready views using them for controlling electrical devices via raspberry pi.
 
 
 ## Applications
 ### Watering system
 Application managing a plant watering system. It allows to manually start and stop automatic watering and create a schedule.
+#### Endpoints
+- ```/watering_system/turn-on/```
+- ```/watering_system/turn-off/```
+- ```/watering_system/status/```
+#### Webhooks
+- ```ws/pump_status/```
 
 ### Door opener
 An application that controls the rotation of the mini-motor that opens and closes the door latch.
+#### Endpoints
+- ```/door_opener/open-door/```
+- ```/door_opener/close-door/```
+- ```/door_opener/status/```
+#### Webhooks
+- ```ws/door_status/```
 
 
 ## Required services
