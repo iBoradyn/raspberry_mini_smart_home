@@ -1,4 +1,4 @@
-# Raspberry mini smart home
+# Raspberry training smart home
 Project with endpoints, webhooks and ready views using them for controlling electrical devices via raspberry pi.
 
 
